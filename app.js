@@ -23,20 +23,14 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 // database config
-const db = process.env.MONGODB_URL;
-
-const connectDB = async () => {
-  try {
-    await mongoose.connect(db, {
-      useUnifiedTopology: true,
-      useNewUrlParser: true
-    });
-    console.log("MongoDB is Connected...");
-  } catch (err) {
-    console.error(err.message);
-    process.exit(1);
-  }
-};
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb+srv://pisckipy:nopassword@reviewapi-a48cn.mongodb.net/test?retryWrites=true&w=majority', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: true
+  })
+  .then(() => console.log('successfully connected with mongodb.'))
+  .catch(err => console.error(err))
 
 app.use('/', indexRouter);
 
